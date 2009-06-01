@@ -1,0 +1,49 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use RSP;
+use JSON::XS;
+use RSP::Transaction;
+use Smart::Worker;
+
+use RSP::Host::Queue;
+
+$RSP::Transaction::HOST_CLASS = "RSP::Host::Queue";
+
+Smart::Worker->run( sub {
+		      my ($conn, $frame) = @_;
+		      my $data = JSON::XS::decode_json( $frame->body );
+		      print "Message body is: " . $frame->body . "\n";
+		      my $tx = RSP::Transaction::Queue->new();
+		      my $request = { uri => $data->{filename} };
+		      my $response = {};
+		      $tx->request( $request );
+		      $tx->response( $response );
+		      $tx->hostname( $data->{hostname} );
+		      $tx->process_transaction();
+
+		      use Data::Dumper;
+		      print Dumper( $frame );
+
+		    }, "/queue/smart/work" );
+
+package RSP::Transaction::Queue;
+
+use strict;
+use warnings;
+
+use base 'RSP::Transaction';
+
+## basically, we don't want to do anything here.
+sub run {}
+
+sub hostname {
+  my $self = shift;
+  if (@_) {
+    $self->{hostname} = shift;
+    return $self;
+  }
+  return $self->{hostname};
+}
