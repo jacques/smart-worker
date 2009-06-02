@@ -9,6 +9,9 @@ use Smart::Worker;
 use RSP::Host::Queue;
 use RSP::Transaction::Queue;
 
+
+if ( fork() ) { exit }
+
 $RSP::Transaction::HOST_CLASS = "RSP::Host::Queue";
 
 Smart::Worker->run( RSP::Transaction::Queue->callback, "/queue/smart/workers" );
