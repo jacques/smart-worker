@@ -35,8 +35,17 @@ sub run {
 sub connection {
   my $class = shift;
   if ( !$STOMP ) {
-    $STOMP = Net::Stomp->new({ hostname => 'localhost', port => '61613' });
-    $STOMP->connect({ login => 'guest', passcode => 'guest' });
+    my $conf = RSP->config->{stomp};
+    my $conn = {
+		hostname => $conf->{host} || 'localhost',
+		port     => $conf->{port} || '61613'
+	       };
+    $STOMP = Net::Stomp->new( $conn );
+    my $auth = {
+		login    => $conf->{user} || 'guest',
+		passcode => $conf->{pass} || 'guest'
+	       };
+    $STOMP->connect( $auth );
   }
   return $STOMP;
 }

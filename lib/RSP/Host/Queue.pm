@@ -9,7 +9,7 @@ sub new {
   my $class = shift;
   my $tx    = shift;
   my $self  = $class->SUPER::new( $tx );
-  $self->bootstrap_file( $tx->request->{ uri } );
+  $self->bootstrap_file( $tx->request->{ file } );
   return $self;
 }
 

@@ -3,9 +3,17 @@
 use strict;
 use warnings;
 
+use RSP;
 use JSON::XS;
 use Smart::Worker;
+use Smart::Message;
 
 my $conn = Smart::Worker->connection;
-my $body = JSON::XS::encode_json({ hostname => '127.0.0.1', filename => 'worker.js' });
-$conn->send({ destination => '/queue/smart/work', body => $body });
+my $mesg = Smart::Message->from_data({
+				      hostname => '127.0.0.1',
+				      filename => 'worker.js',
+				      method   => 'test',
+				      args     => ['one','two','three']
+				     });
+
+$conn->send({ destination => '/queue/smart/work', body => $mesg->as_json });
