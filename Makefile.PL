@@ -1,7 +1,7 @@
 use ExtUtils::MakeMaker;
 
 WriteMakefile(
-  NAME => 'RSP',
+  NAME => 'Smart::Worker',
   VERSION_FROM => 'lib/Smart/Worker.pm',
   EXE_FILES => ['bin/smartworker', 'bin/testworker'],
   PREREQ_PM => {
