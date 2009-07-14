@@ -25,6 +25,12 @@ sub queue_callback {
   my ($conn, $frame) = @_;
   my $mesg = Smart::Message->from_json( $frame->body );
 
+  __PACKAGE__->process_message( $mesg );
+}
+
+sub process_message {
+  my $class = shift;
+  my $mesg  = shift;
   my $tx = RSP::Transaction::Queue->new();
   my $request = { file => $mesg->filename };
   my $response = {};
@@ -34,6 +40,7 @@ sub queue_callback {
   $tx->bootstrap;
   $tx->context->call( $mesg->method, @{ $mesg->args } );
   $tx->end;
+
 }
 
 1;

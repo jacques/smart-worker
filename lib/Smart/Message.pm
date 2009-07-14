@@ -40,7 +40,7 @@ sub from_json {
   $class->from_data( $data );
 }
 
-sub as_json {
+sub as_data {
   my $self = shift;
   my $mesg = {
 	      filename => $self->filename,
@@ -48,7 +48,12 @@ sub as_json {
 	      method   => $self->method,
 	      args     => $self->args
 	     };
-  return $json->encode( $mesg );
+  return $mesg;
+}
+
+sub as_json {
+  my $self = shift;
+  return $json->encode( $self->as_data );
 }
 
 1;
