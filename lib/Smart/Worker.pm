@@ -15,9 +15,9 @@ sub run {
   my $conn  = $class->connection;
   foreach my $channel (@_) {
     $conn->subscribe({
-		      destination => $channel,
-		      ack         => 'client',
-		     });
+          destination => $channel,
+          ack         => 'client',
+         });
   }
   while (1) {
     my $frame = $conn->receive_frame;
@@ -37,14 +37,14 @@ sub connection {
   if ( !$STOMP ) {
     my $conf = RSP->config->{stomp};
     my $conn = {
-		hostname => $conf->{host} || 'localhost',
-		port     => $conf->{port} || '61613'
-	       };
+      hostname => $conf->{host} || 'localhost',
+      port     => $conf->{port} || '61613'
+    };
     $STOMP = Net::Stomp->new( $conn );
     my $auth = {
-		login    => $conf->{user} || 'guest',
-		passcode => $conf->{pass} || 'guest'
-	       };
+      login    => $conf->{user} || 'guest',
+      passcode => $conf->{pass} || 'guest'
+    };
     $STOMP->connect( $auth );
   }
   return $STOMP;

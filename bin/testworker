@@ -10,10 +10,10 @@ use Smart::Message;
 
 my $conn = Smart::Worker->connection;
 my $mesg = Smart::Message->from_data({
-				      hostname => '127.0.0.1',
-				      filename => 'worker.js',
-				      method   => 'test',
-				      args     => ['one','two','three']
-				     });
+              hostname => '127.0.0.1',
+              filename => 'worker.js',
+              method   => 'test',
+              args     => ['one','two','three']
+             });
 
 $conn->send({ destination => '/queue/smart/work', body => $mesg->as_json });

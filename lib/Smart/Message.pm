@@ -43,11 +43,11 @@ sub from_json {
 sub as_data {
   my $self = shift;
   my $mesg = {
-	      filename => $self->filename,
-	      hostname => $self->hostname,
-	      method   => $self->method,
-	      args     => $self->args
-	     };
+        filename => $self->filename,
+        hostname => $self->hostname,
+        method   => $self->method,
+        args     => $self->args
+      };
   return $mesg;
 }
 
